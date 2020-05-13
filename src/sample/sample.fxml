@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" minHeight="210.0" minWidth="300.0" prefHeight="210.0" prefWidth="300.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.CalculatorController">
+<GridPane alignment="center" hgap="10" minHeight="210.0" minWidth="293.0" pickOnBounds="false" prefHeight="257.0" prefWidth="293.0" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.CalculatorController">
    <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -24,34 +26,38 @@
       <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
    <children>
-      <TextField id="display" fx:id="display" text="0" GridPane.columnSpan="6" />
+      <Label id="formula" fx:id="formula" prefHeight="18.0" prefWidth="293.0" underline="true" GridPane.columnSpan="6" />
+      <TextField id="display" fx:id="display" text="0" GridPane.columnSpan="6" GridPane.rowIndex="1" />
 
-      <Button id="divide" fx:id="divide" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefWidth="100.0" text="÷" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-      <Button id="multiply" fx:id="multiply" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefWidth="100.0" text="x" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-      <Button id="minus" fx:id="minus" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefWidth="100.0" text="−" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-      <Button id="plus" fx:id="plus" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefWidth="100.0" text="+" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-      <Button id="x2" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefWidth="100.0" text="X*2" GridPane.columnIndex="4" GridPane.rowIndex="3" fx:id="x2" />
-      <Button id="sqrt" fx:id="sqrt" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefWidth="100.0" text="√" GridPane.columnIndex="5" GridPane.rowIndex="3" onAction="#sqrtClic"/>
+      <Button id="divide" fx:id="divide" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#operatorClic" prefWidth="100.0" text="÷" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+      <Button id="multiply" fx:id="multiply" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#operatorClic" prefWidth="100.0" text="x" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+      <Button id="minus" fx:id="minus" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#operatorClic" prefWidth="100.0" text="−" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+      <Button id="plus" fx:id="plus" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#operatorClic" prefWidth="100.0" text="+" GridPane.columnIndex="3" GridPane.rowIndex="5" />
 
-      <Button id="backspace" fx:id="backspace" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#backspaceClic" onKeyPressed="#backspaceClic" prefWidth="100.0" text="⌫" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-      <Button id="cancel" fx:id="cancel" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#cancelClic" prefWidth="100.0" text="C" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+       <Button id="x2" fx:id="multiplyTwo" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#multiplyTwoClic" prefWidth="100.0" text="X*2" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+       <Button id="1/X" fx:id="fractionOne" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#fractionOneClic" prefWidth="100.0" text="1/X" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+       <Button id="sqrt" fx:id="sqrt" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#sqrtClic" prefWidth="100.0" text="√" GridPane.columnIndex="5" GridPane.rowIndex="4" />
 
-      <Button id="percent" fx:id="percent" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefWidth="100.0" text="\%" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-      <Button id="rightBracket" fx:id="rightBracket" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-      <Button id="comma" fx:id="comma" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#commaClic" prefWidth="100.0" text="," GridPane.columnIndex="1" GridPane.rowIndex="4"><font><Font name="System Bold" size="13.0" /></font></Button>
-      <Button id="plusMinus" fx:id="plusMinus" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefWidth="100.0" text="±" GridPane.columnIndex="2" GridPane.rowIndex="4" onAction="#plusMinusClic"/>
+       <Button id="backspace" fx:id="backspace" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#backspaceClic" onKeyPressed="#backspaceClic" prefWidth="100.0" text="⌫" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+       <Button id="cancel" fx:id="cancel" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#cancelClic" prefWidth="100.0" text="C" GridPane.columnIndex="5" GridPane.rowIndex="2" />
 
-      <Button id="num1" fx:id="num1" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="1" GridPane.rowIndex="3"><font><Font name="System Bold" size="13.0" /></font></Button>
-      <Button id="num2" fx:id="num2" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="2" GridPane.columnIndex="1" GridPane.rowIndex="3"><font><Font name="System Bold" size="13.0" /></font></Button>
-      <Button id="num3" fx:id="num3" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="3" GridPane.columnIndex="2" GridPane.rowIndex="3"><font><Font name="System Bold" size="13.0" /></font></Button>
-      <Button id="num4" fx:id="num4" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="4" GridPane.rowIndex="2">  <font><Font name="System Bold" size="13.0" /></font>  </Button>
-      <Button id="num5" fx:id="num5" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="2"><font><Font name="System Bold" size="13.0" /></font></Button>
-      <Button id="num6" fx:id="num6" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="2"><font><Font name="System Bold" size="13.0" /></font></Button>
-      <Button id="num7" fx:id="num7" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="7" GridPane.rowIndex="1">  <font><Font name="System Bold" size="13.0" /></font>  </Button>
-      <Button id="num8" fx:id="num8" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="8" GridPane.columnIndex="1" GridPane.rowIndex="1">  <font><Font name="System Bold" size="13.0" /></font>  </Button>
-      <Button id="num9" fx:id="num9" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="9" GridPane.columnIndex="2" GridPane.rowIndex="1">  <font><Font name="System Bold" size="13.0" /></font>  </Button>
-      <Button id="num0" fx:id="num0" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="0" GridPane.rowIndex="4"><font><Font name="System Bold" size="13.0" /></font></Button>
+       <Button id="percent"  fx:id="percent"   maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#percentClic"   prefWidth="100.0" text="\%" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+      <Button id="comma"     fx:id="comma"     maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#commaClic"     prefWidth="100.0" text=","  GridPane.columnIndex="1" GridPane.rowIndex="5"><font><Font name="System Bold" size="13.0" /></font></Button>
+      <Button id="plusMinus" fx:id="plusMinus" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#plusMinusClic" prefWidth="100.0" text="±"  GridPane.columnIndex="2" GridPane.rowIndex="5" />
 
-      <Button id="result" fx:id="result" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="150.0" text="=" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+      <Button id="num1" fx:id="num1" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="1" GridPane.rowIndex="4"><font><Font name="System Bold" size="13.0" /></font></Button>
+      <Button id="num2" fx:id="num2" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="2" GridPane.columnIndex="1" GridPane.rowIndex="4"><font><Font name="System Bold" size="13.0" /></font></Button>
+      <Button id="num3" fx:id="num3" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="3" GridPane.columnIndex="2" GridPane.rowIndex="4"><font><Font name="System Bold" size="13.0" /></font></Button>
+      <Button id="num4" fx:id="num4" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="4" GridPane.rowIndex="3">  <font><Font name="System Bold" size="13.0" /></font>  </Button>
+      <Button id="num5" fx:id="num5" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="3"><font><Font name="System Bold" size="13.0" /></font></Button>
+      <Button id="num6" fx:id="num6" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="3"><font><Font name="System Bold" size="13.0" /></font></Button>
+      <Button id="num7" fx:id="num7" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="7" GridPane.rowIndex="2">  <font><Font name="System Bold" size="13.0" /></font>  </Button>
+      <Button id="num8" fx:id="num8" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="8" GridPane.columnIndex="1" GridPane.rowIndex="2">  <font><Font name="System Bold" size="13.0" /></font>  </Button>
+      <Button id="num9" fx:id="num9" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="9" GridPane.columnIndex="2" GridPane.rowIndex="2">  <font><Font name="System Bold" size="13.0" /></font>  </Button>
+      <Button id="num0" fx:id="num0" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#digitClic" prefWidth="100.0" text="0" GridPane.rowIndex="5"><font><Font name="System Bold" size="13.0" /></font></Button>
+
+      <Button id="result" fx:id="result" maxHeight="Infinity" maxWidth="Infinity" mnemonicParsing="false" onAction="#resultClic" prefHeight="26.0" prefWidth="150.0" text="=" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+
+
    </children>
 </GridPane>
