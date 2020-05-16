@@ -2,6 +2,7 @@ package sample;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,10 +11,17 @@ class CalculatorTest {
     private Calculator calculator;
     private Display display = new DisplayStub();
     private Formula formula = new FormulaStub();
+    Main mainClass = new Main();
+
 
     @BeforeEach
     void setUp() {
         calculator = new Calculator(display, formula);
+    }
+
+    @BeforeEach
+    void setUpContr() {
+        CalculatorController calculatorController = new CalculatorController();
     }
 
     @Test
@@ -32,6 +40,17 @@ class CalculatorTest {
         assertEquals("1.5",display.getDisplayNumber());
         calculator.digit("58");
         assertEquals("1.558",display.getDisplayNumber());
+        //Перевірка чи натиснуто =
+        calculator.digit("1");
+        calculator.operator("+");
+        calculator.digit("1");
+        calculator.result();
+        assertEquals("=",formula.getFormula().substring(formula.getFormula().length()-1));
+        calculator.digit("2");
+        assertEquals("2",formula.getFormula());
+        assertEquals("2", display.getDisplayNumber());
+
+
     }
 
     @Test
@@ -162,6 +181,127 @@ class CalculatorTest {
         calculator.setNumberInt(number);
         //then
         assertEquals("56",display.getDisplayNumber());
+    }
+
+    @Test
+    void operatorOldNewEception() {
+        //перевірка обробки Exception, +
+        calculator.digit("5");
+        calculator.operator("+");
+        calculator.digit("10");
+        //не коректна -
+        calculator.operatorOldNew("-", "+");
+        calculator.digit("2");
+        assertThrows(IllegalStateException.class, () -> {
+            calculator.getNewNumber(); });
+    }
+    @Test
+    void operatorOldNewPlusInt() {
+            //перевірка обробки -, int
+            calculator.digit("5");
+            calculator.operator("−");
+            calculator.digit("2");
+            calculator.operatorOldNew("+","−");
+            calculator.digit("7");
+            calculator.result();
+            assertEquals("10", display.getDisplayNumber());
+     }
+    @Test
+    void operatorOldNewMultiplyInt() {
+        //перевірка оброкби х, int
+        calculator.digit("5");
+        calculator.operator("x");
+        calculator.digit("2");
+        calculator.operatorOldNew("x","x");
+        calculator.digit("2");
+        calculator.result();
+        assertEquals("20",display.getDisplayNumber());
+    }
+
+    @Test
+    void operatorOldNewDivideDouble() {
+        //перевірка обробки ÷, double
+        calculator.digit("5");
+        calculator.operator("÷");
+        calculator.digit("2");
+        calculator.operatorOldNew("−","÷");
+        calculator.digit("1");
+        calculator.result();
+        assertEquals("1.5",display.getDisplayNumber());
+        calculator.cancel();
+
+        //додаткова перевірка ÷, як оператора
+        calculator.digit("1");
+        calculator.operator("÷");
+        calculator.digit("1");
+        calculator.operatorOldNew("÷","÷");
+        calculator.digit("2");
+        calculator.result();
+        assertEquals("0.5",display.getDisplayNumber());
+    }
+
+    @Test
+    void operatorChange() {
+        calculator.digit("1");
+        calculator.operator("+");
+        calculator.operatorChange("÷");
+        assertEquals("÷",formula.getFormula().substring(formula.getFormula().length()-1));
+    }
+
+    @Test
+    void backspace() {
+        //базова перевірка
+        calculator.digit("1");
+        calculator.backspace();
+        assertEquals("0",display.getDisplayNumber());
+        assertEquals("",formula.getFormula());
+        calculator.cancel();
+
+        //перевірка відємних чисел
+        calculator.digit("10");
+        calculator.plusMinus();
+        calculator.backspace();
+        assertEquals("-1",display.getDisplayNumber());
+        assertEquals("(-1)",formula.getFormula());
+        calculator.cancel();
+
+        //перевірка остатку від відємних
+        calculator.digit("1");
+        calculator.plusMinus();
+        calculator.backspace();
+        assertEquals("0",display.getDisplayNumber());
+        assertEquals("",formula.getFormula());
+        calculator.cancel();
+
+        //якщо було натиснуто =
+        calculator.digit("1");
+        calculator.operator("+");
+        calculator.digit("1");
+        calculator.result();
+        calculator.backspace();
+        assertEquals("0",display.getDisplayNumber());
+        assertEquals("",formula.getFormula());
+
+        //перевірка Exception - після перевірки виявилося, що помилка ніколи не випадає
+//        display.setDisplayNumber("");
+//        calculator.backspace();
+//        assertThrows(StringIndexOutOfBoundsException.class,()->{calculator.backspace();});
+    }
+
+    @Test
+    void fractionOne() {
+    }
+
+    @Test
+    void multiplyTwo() {
+    }
+
+    @Test
+    void percent() {
+    }
+    @Test
+    void operatorClicked(){
+
     }
 
     private static class DisplayStub implements Display{

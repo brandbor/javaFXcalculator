@@ -119,7 +119,7 @@ class Calculator {
             } else {
                 //проводиться перевірка на помилку. Виникає помилка, коли довжина числа в display <1
                 //помилка обробляється
-                try {
+              //  try {
                     //якщо останній симфол у формулі один із математичних симфолів - нічого не робити
                     if (operatorClicked()) System.out.println("Do nothing");
                     else {
@@ -134,9 +134,9 @@ class Calculator {
                             formula.setFormula(formula.getFormula().substring(0, formula.getFormula().length() - 3));
                         }
                     }
-                } catch (StringIndexOutOfBoundsException e) {
-                        e.printStackTrace();
-                }
+//                } catch (StringIndexOutOfBoundsException e) {
+//                        e.printStackTrace();
+//                }
             }
         }
         //пост-перевірка після видалення останнього числа чи є ще щось на дисплеї і у формулі
@@ -324,7 +324,7 @@ class Calculator {
     }
 
     //підрахунок фінального результату всіх введених чисел та операторів
-    private double getNewNumber() {
+     double getNewNumber() {
         double newNumber;
         switch (operator){
             case "+": newNumber = a + getNumberDouble(); break;
