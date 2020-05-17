@@ -209,8 +209,7 @@ class Calculator {
             try {
                 newNumber = getNewNumber();
             } catch (NullPointerException e) {
-                newNumber = getNumberDouble();
-            }
+                newNumber = getNumberDouble(); }
 
             double newNumberMult = newNumber * 2;
 

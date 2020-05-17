@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CalculatorTest {
 //TODO написати тести, щоб покриття було на 100%
     private Calculator calculator;
+    private CalculatorController calculatorController;
     private Display display = new DisplayStub();
     private Formula formula = new FormulaStub();
     Main mainClass = new Main();
@@ -23,6 +24,8 @@ class CalculatorTest {
     void setUpContr() {
         CalculatorController calculatorController = new CalculatorController();
     }
+
+ //ТЕСТИ на клас Calculator -------------------------------------------------------------------------
 
     @Test
     void result(){
@@ -290,19 +293,107 @@ class CalculatorTest {
 
     @Test
     void fractionOne() {
+        //додатнє число
+        calculator.digit("2");
+        calculator.fractionOne();
+        assertEquals("0.5",display.getDisplayNumber());
+
+        //відємне вхідне int
+        calculator.digit("-1");
+        calculator.fractionOne();
+        assertEquals("-1",display.getDisplayNumber());
+
+        //відємне вхідне double
+        calculator.digit("-0.5");
+        calculator.fractionOne();
+        assertEquals("-2",display.getDisplayNumber());
+
+        //додатне вхідне double
+        calculator.digit("0.5");
+        calculator.fractionOne();
+        assertEquals("2",display.getDisplayNumber());
+
+        //Exception якщо вхідне число 0
+        calculator.digit("0");
+        assertThrows(ArithmeticException.class,()->{calculator.fractionOne();});
     }
 
     @Test
     void multiplyTwo() {
+        //int
+        calculator.digit("10");
+        calculator.multiplyTwo();
+        assertEquals("20",display.getDisplayNumber());
+        //double
+        calculator.digit("10.2");
+        calculator.multiplyTwo();
+        assertEquals("20.4",display.getDisplayNumber());
     }
 
     @Test
     void percent() {
+        //вхідне число додатне double
+        calculator.digit("1");
+        calculator.operator("+");
+        calculator.digit("20");
+        calculator.percent();
+        calculator.result();
+        assertEquals("1.2",display.getDisplayNumber());
+
+        //вхідне число додатне int
+        calculator.digit("100");
+        calculator.operator("−");
+        calculator.digit("5");
+        calculator.percent();
+        calculator.result();
+        assertEquals("95",display.getDisplayNumber());
+
+        //вхідне число додатне, але результуюче число відємне int
+        calculator.digit("-10");
+        calculator.operator("÷");
+        calculator.digit("50");
+        calculator.percent();
+        calculator.result();
+        assertEquals("2",display.getDisplayNumber());
+
+        //вхідне число додатне, але результуюче число відємне double
+        calculator.digit("-20");
+        calculator.operator("+");
+        calculator.digit("1");
+        calculator.percent();
+        calculator.result();
+        assertEquals("-20.2", display.getDisplayNumber());
+
+        //вхідне число відємне double
+        calculator.digit("5");
+        calculator.operator("x");
+        calculator.digit("50");
+        calculator.plusMinus();
+        calculator.percent();
+        calculator.result();
+        assertEquals("-12.5",display.getDisplayNumber());
+
+        //вхідне число відємне int
+        calculator.digit("10");
+        calculator.operator("+");
+        calculator.digit("100");
+        calculator.plusMinus();
+        calculator.percent();
+        calculator.result();
+        assertEquals("0",display.getDisplayNumber());
+
+
     }
     @Test
     void operatorClicked(){
-
+// перевірено в рамках перевірки backspace
     }
+
+    //ТЕСТИ на клас CalculatorController -------------------------------------------------------------------------
+    void digitClic(){
+  //      calculatorController.digitClic(num1);
+    }
+
 
     private static class DisplayStub implements Display{
         private String displayNumber ="0";

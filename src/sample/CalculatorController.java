@@ -26,6 +26,7 @@ public class CalculatorController implements Display, Formula {
         Button button = (Button) event.getSource();
         String digit = button.getText();
         calculator.digit(digit);
+     //   System.out.println(event);
     }
 
     public void operatorClic(ActionEvent event) {
