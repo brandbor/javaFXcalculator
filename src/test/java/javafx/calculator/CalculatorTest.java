@@ -1,18 +1,16 @@
-package sample;
+package javafx.calculator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CalculatorTest {
-//TODO написати тести, щоб покриття було на 100%
+
     private Calculator calculator;
-    private CalculatorController calculatorController;
+
     private Display display = new DisplayStub();
     private Formula formula = new FormulaStub();
-    Main mainClass = new Main();
 
 
     @BeforeEach
@@ -20,12 +18,7 @@ class CalculatorTest {
         calculator = new Calculator(display, formula);
     }
 
-    @BeforeEach
-    void setUpContr() {
-        CalculatorController calculatorController = new CalculatorController();
-    }
-
- //ТЕСТИ на клас Calculator -------------------------------------------------------------------------
+ //ТЕСТИ на клас javafx.calculator.Calculator -------------------------------------------------------------------------
 
     @Test
     void result(){
@@ -52,8 +45,6 @@ class CalculatorTest {
         calculator.digit("2");
         assertEquals("2",formula.getFormula());
         assertEquals("2", display.getDisplayNumber());
-
-
     }
 
     @Test
@@ -63,7 +54,7 @@ class CalculatorTest {
         calculator.digit("3");
         calculator.result();
         assertEquals(5,calculator.getNumberInt());
-        assertEquals(true, formula.getFormula().contains("+"));
+        assertTrue(formula.getFormula().contains("+"));
     }
 
     @Test
@@ -195,8 +186,7 @@ class CalculatorTest {
         //не коректна -
         calculator.operatorOldNew("-", "+");
         calculator.digit("2");
-        assertThrows(IllegalStateException.class, () -> {
-            calculator.getNewNumber(); });
+        assertThrows(IllegalStateException.class, () -> calculator.getNewNumber());
     }
     @Test
     void operatorOldNewPlusInt() {
@@ -315,7 +305,7 @@ class CalculatorTest {
 
         //Exception якщо вхідне число 0
         calculator.digit("0");
-        assertThrows(ArithmeticException.class,()->{calculator.fractionOne();});
+        assertThrows(ArithmeticException.class,()-> calculator.fractionOne());
     }
 
     @Test
@@ -389,10 +379,8 @@ class CalculatorTest {
 // перевірено в рамках перевірки backspace
     }
 
-    //ТЕСТИ на клас CalculatorController -------------------------------------------------------------------------
-    void digitClic(){
-  //      calculatorController.digitClic(num1);
-    }
+    //ТЕСТИ на клас javafx.calculator.CalculatorController -------------------------------------------------------------------------
+    //не пишемо, оскільки не проводяться математичні операції
 
 
     private static class DisplayStub implements Display{
@@ -408,7 +396,7 @@ class CalculatorTest {
         }
     }
 
-    private static class FormulaStub implements Formula{
+    private static class FormulaStub implements Formula {
         private String formula = "";
         @Override
         public String getFormula() {return formula;}
