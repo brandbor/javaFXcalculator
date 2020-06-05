@@ -8,10 +8,8 @@ import static org.junit.jupiter.api.Assertions.*
 class CalculatorTest {
 
     Calculator calculator
-
     Display display = new DisplayStub()
     Formula formula = new FormulaStub()
-
 
     @BeforeEach
     void setUp() {
@@ -26,25 +24,25 @@ class CalculatorTest {
         calculator.operator("+")
         calculator.digit("2")
         calculator.result()
-        assertEquals(3,calculator.getNumberInt())
+        assert calculator.getNumberInt() == 3
     }
 
     @Test
     void digit() {
-        assertEquals("0",display.getDisplayNumber())
+        assert display.getDisplayNumber() =="0"
         calculator.digit("1.5")
-        assertEquals("1.5",display.getDisplayNumber())
+        assert display.getDisplayNumber() =="1.5"
         calculator.digit("58")
-        assertEquals("1.558",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "1.558"
         //Перевірка чи натиснуто =
         calculator.digit("1")
         calculator.operator("+")
         calculator.digit("1")
         calculator.result()
-        assertEquals("=",formula.getFormula().substring(formula.getFormula().length()-1))
+        assert formula.getFormula().substring(formula.getFormula().length()-1) == "="
         calculator.digit("2")
-        assertEquals("2",formula.getFormula())
-        assertEquals("2", display.getDisplayNumber())
+        assert formula.getFormula() == "2"
+        assert display.getDisplayNumber() == "2"
     }
 
     @Test
@@ -53,22 +51,22 @@ class CalculatorTest {
         calculator.operator("+")
         calculator.digit("3")
         calculator.result()
-        assertEquals(5,calculator.getNumberInt())
-        assertTrue(formula.getFormula().contains("+"))
+        assert calculator.getNumberInt() == 5
+        assert formula.getFormula().contains("+")
     }
 
     @Test
     void cancel() {
         //given
         calculator.digit("1")
-        assertTrue(calculator.isLastButtonWasDigit())
+        assert calculator.isLastButtonWasDigit()
         //when
         calculator.cancel()
         //then
-        assertFalse(calculator.isLastButtonWasDigit())
-        assertEquals("0",display.getDisplayNumber())
-        assertEquals(0,calculator.getNumberInt())
-        assertEquals(0,calculator.getNumberDouble())
+        assert !calculator.isLastButtonWasDigit()
+        assert display.getDisplayNumber() == "0"
+        assert calculator.getNumberInt() == 0
+        assert calculator.getNumberDouble() == 0
 
     }
 
@@ -80,13 +78,13 @@ class CalculatorTest {
         //when
         calculator.plusMinus()
         //then
-        assertEquals("-10",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "-10"
 
         //Test2
         //when
         calculator.plusMinus()
         //then
-        assertEquals("10",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "10"
     }
 
     @Test
@@ -97,7 +95,7 @@ class CalculatorTest {
         calculator.comma()
         calculator.digit("15")
         //then
-        assertEquals("20.15",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "20.15"
     }
 
     @Test
@@ -107,7 +105,7 @@ class CalculatorTest {
         //when
         calculator.comma()
         //then
-        assertEquals("20.15",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "20.15"
     }
 
     @Test
@@ -117,7 +115,7 @@ class CalculatorTest {
         //when
         calculator.sqrt()
         //then
-        assertEquals("4",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "4"
     }
 
     @Test
@@ -127,7 +125,7 @@ class CalculatorTest {
         //when
         calculator.sqrt()
         //then
-        assertEquals("99.99499987499375",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "99.99499987499375"
     }
 
     @Test
@@ -136,7 +134,7 @@ class CalculatorTest {
         calculator.digit("1.44")
         //when
         calculator.sqrt()
-        assertEquals("1.2",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "1.2"
     }
 
     @Test
@@ -144,8 +142,9 @@ class CalculatorTest {
         //given
         display.setDisplayNumber("0.1")
         //when
-        double number = calculator.getNumberDouble()
-        assertEquals(0.1,number)
+      //  double number = calculator.getNumberDouble()
+       // assertEquals(0.1, number)//виникає warning тому тут написано на java
+        assert calculator.getNumberDouble() == 0.1
     }
 
     @Test
@@ -154,7 +153,7 @@ class CalculatorTest {
         double number = 42D
         //when
         calculator.setNumberDouble(number)
-        assertEquals("42.0", display.getDisplayNumber())
+        assert display.getDisplayNumber() == "42.0"
     }
 
     @Test
@@ -164,7 +163,7 @@ class CalculatorTest {
         //when
         int number = calculator.getNumberInt()
         //then
-        assertEquals(0,number)
+        assert number == 0
     }
 
     @Test
@@ -174,7 +173,7 @@ class CalculatorTest {
         //when
         calculator.setNumberInt(number)
         //then
-        assertEquals("56",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "56"
     }
 
     @Test
@@ -197,7 +196,7 @@ class CalculatorTest {
             calculator.operatorOldNew("+","−")
             calculator.digit("7")
             calculator.result()
-            assertEquals("10", display.getDisplayNumber())
+            assert display.getDisplayNumber() == "10"
      }
     @Test
     void operatorOldNewMultiplyInt() {
@@ -208,7 +207,7 @@ class CalculatorTest {
         calculator.operatorOldNew("x","x")
         calculator.digit("2")
         calculator.result()
-        assertEquals("20",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "20"
     }
 
     @Test
@@ -220,7 +219,7 @@ class CalculatorTest {
         calculator.operatorOldNew("−","÷")
         calculator.digit("1")
         calculator.result()
-        assertEquals("1.5",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "1.5"
         calculator.cancel()
 
         //додаткова перевірка ÷, як оператора
@@ -230,7 +229,7 @@ class CalculatorTest {
         calculator.operatorOldNew("÷","÷")
         calculator.digit("2")
         calculator.result()
-        assertEquals("0.5",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "0.5"
     }
 
     @Test
@@ -238,7 +237,7 @@ class CalculatorTest {
         calculator.digit("1")
         calculator.operator("+")
         calculator.operatorChange("÷")
-        assertEquals("÷",formula.getFormula().substring(formula.getFormula().length()-1))
+        assert formula.getFormula().substring(formula.getFormula().length()-1) == "÷"
     }
 
     @Test
@@ -246,24 +245,24 @@ class CalculatorTest {
         //базова перевірка
         calculator.digit("1")
         calculator.backspace()
-        assertEquals("0",display.getDisplayNumber())
-        assertEquals("",formula.getFormula())
+        assert display.getDisplayNumber() == "0"
+        assert formula.getFormula() == ""
         calculator.cancel()
 
         //перевірка відємних чисел
         calculator.digit("10")
         calculator.plusMinus()
         calculator.backspace()
-        assertEquals("-1",display.getDisplayNumber())
-        assertEquals("(-1)",formula.getFormula())
+        assert display.getDisplayNumber() == "-1"
+        assert formula.getFormula() == "(-1)"
         calculator.cancel()
 
         //перевірка остатку від відємних
         calculator.digit("1")
         calculator.plusMinus()
         calculator.backspace()
-        assertEquals("0",display.getDisplayNumber())
-        assertEquals("",formula.getFormula())
+        assert display.getDisplayNumber() == "0"
+        assert formula.getFormula() == ""
         calculator.cancel()
 
         //якщо було натиснуто =
@@ -272,8 +271,8 @@ class CalculatorTest {
         calculator.digit("1")
         calculator.result()
         calculator.backspace()
-        assertEquals("0",display.getDisplayNumber())
-        assertEquals("",formula.getFormula())
+        assert display.getDisplayNumber() == "0"
+        assert formula.getFormula() == ""
 
         //перевірка Exception - після перевірки виявилося, що помилка ніколи не випадає
 //        display.setDisplayNumber("");
@@ -286,22 +285,22 @@ class CalculatorTest {
         //додатнє число
         calculator.digit("2")
         calculator.fractionOne()
-        assertEquals("0.5",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "0.5"
 
         //відємне вхідне int
         calculator.digit("-1")
         calculator.fractionOne()
-        assertEquals("-1",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "-1"
 
         //відємне вхідне double
         calculator.digit("-0.5")
         calculator.fractionOne()
-        assertEquals("-2",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "-2"
 
         //додатне вхідне double
         calculator.digit("0.5")
         calculator.fractionOne()
-        assertEquals("2",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "2"
 
         //Exception якщо вхідне число 0
         calculator.digit("0")
@@ -313,11 +312,11 @@ class CalculatorTest {
         //int
         calculator.digit("10")
         calculator.multiplyTwo()
-        assertEquals("20",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "20"
         //double
         calculator.digit("10.2")
         calculator.multiplyTwo()
-        assertEquals("20.4",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "20.4"
     }
 
     @Test
@@ -328,7 +327,7 @@ class CalculatorTest {
         calculator.digit("20")
         calculator.percent()
         calculator.result()
-        assertEquals("1.2",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "1.2"
 
         //вхідне число додатне int
         calculator.digit("100")
@@ -336,7 +335,7 @@ class CalculatorTest {
         calculator.digit("5")
         calculator.percent()
         calculator.result()
-        assertEquals("95",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "95"
 
         //вхідне число додатне, але результуюче число відємне int
         calculator.digit("-10")
@@ -344,7 +343,7 @@ class CalculatorTest {
         calculator.digit("50")
         calculator.percent()
         calculator.result()
-        assertEquals("2",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "2"
 
         //вхідне число додатне, але результуюче число відємне double
         calculator.digit("-20")
@@ -352,7 +351,7 @@ class CalculatorTest {
         calculator.digit("1")
         calculator.percent()
         calculator.result()
-        assertEquals("-20.2", display.getDisplayNumber())
+        assert display.getDisplayNumber() == "-20.2"
 
         //вхідне число відємне double
         calculator.digit("5")
@@ -361,7 +360,7 @@ class CalculatorTest {
         calculator.plusMinus()
         calculator.percent()
         calculator.result()
-        assertEquals("-12.5",display.getDisplayNumber())
+        assert display.getDisplayNumber() == "-12.5"
 
         //вхідне число відємне int
         calculator.digit("10")
@@ -370,8 +369,7 @@ class CalculatorTest {
         calculator.plusMinus()
         calculator.percent()
         calculator.result()
-        assertEquals("0",display.getDisplayNumber())
-
+        assert display.getDisplayNumber() == "0"
 
     }
     @Test
