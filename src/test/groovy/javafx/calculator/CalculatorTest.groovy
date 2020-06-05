@@ -383,26 +383,12 @@ class CalculatorTest {
     //не пишемо, оскільки не проводяться математичні операції
 
 
-class DisplayStub implements Display{
-        private String displayNumber ="0"
-        @Override
-        String getDisplayNumber() {
-            return displayNumber
-        }
-
-        @Override
-        void setDisplayNumber(String displayNumber) {
-            this.displayNumber = displayNumber
-        }
+    class DisplayStub implements Display{
+        String displayNumber ="0"
     }
 
-  class FormulaStub implements Formula {
-        private String formula = ""
-        @Override
-        String getFormula() {return formula}
-
-        @Override
-        void setFormula(String formulaNumber) {this.formula = formulaNumber}
+    class FormulaStub implements Formula {
+        String formula = ""
     }
 }
 
