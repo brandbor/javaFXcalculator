@@ -7,6 +7,9 @@ class Calculator {
 
     private final Display display;
     private boolean lastButtonWasDigit;
+
+
+
     private String operator;
 
     //змінна, яка зберігає суму по формулі
@@ -34,11 +37,11 @@ class Calculator {
         } else {
             if (display.getDisplayNumber().equals("0")) {
                 display.setDisplayNumber(digit);
-                lastButtonWasDigit = true;
             } else {
                 if (lastButtonWasDigit) display.setDisplayNumber(display.getDisplayNumber() + digit);
                 else display.setDisplayNumber(digit);
-                lastButtonWasDigit = true;}
+            }
+            lastButtonWasDigit = true;
             formula.setFormula(formula.getFormula() + digit);
         }
     }
@@ -125,7 +128,7 @@ class Calculator {
                 else {
                     display.setDisplayNumber(display.getDisplayNumber().substring(0, display.getDisplayNumber().length() - 1));
                     //обробка відємних чисел
-                    if (formula.getFormula().substring(formula.getFormula().length() - 1).equals(")")) {
+                    if (formula.getFormula().endsWith(")")) {
                         formula.setFormula(formula.getFormula().substring(0, formula.getFormula().length() - 2) + ")");
                     } else formula.setFormula(formula.getFormula().substring(0, formula.getFormula().length() - 1));
                     //обробка остатку від відємних чисел
@@ -333,5 +336,8 @@ class Calculator {
             default: throw new IllegalStateException("Unexpected value: " + operator); }
         return newNumber;
     }
-
+    //
+    public String getOperator() {
+        return operator;
+    }
 }

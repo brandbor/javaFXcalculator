@@ -3,8 +3,6 @@ package javafx.calculator
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-import static org.junit.jupiter.api.Assertions.*
-
 class CalculatorTest {
 
     Calculator calculator
@@ -144,7 +142,7 @@ class CalculatorTest {
         //when
       //  double number = calculator.getNumberDouble()
        // assertEquals(0.1, number)//виникає warning тому тут написано на java
-        assert calculator.getNumberDouble() == 0.1
+        assert calculator.getNumberDouble() == (double)0.1
     }
 
     @Test
@@ -178,6 +176,7 @@ class CalculatorTest {
 
     @Test
     void operatorOldNewEception() {
+
         //перевірка обробки Exception, +
         calculator.digit("5")
         calculator.operator("+")
@@ -185,7 +184,11 @@ class CalculatorTest {
         //не коректна -
         calculator.operatorOldNew("-", "+")
         calculator.digit("2")
-        assertThrows(IllegalStateException.class, () -> calculator.getNewNumber())
+        try{calculator.getNewNumber()}
+        catch (IllegalStateException e)
+        {assert e.message == "Unexpected value: " + calculator.getOperator()}
+        //приклад коду для використання в JUnit
+        //assertThrows(IllegalStateException.class, () -> calculator.getNewNumber())
     }
     @Test
     void operatorOldNewPlusInt() {
@@ -304,7 +307,12 @@ class CalculatorTest {
 
         //Exception якщо вхідне число 0
         calculator.digit("0")
-        assertThrows(ArithmeticException.class,()-> calculator.fractionOne())
+        try{calculator.fractionOne()}
+        catch (ArithmeticException e){
+            assert e.message == "Error -> Division by zero"
+        }
+        //приклад коду для використання в JUnit
+        //assertThrows(ArithmeticException.class,()-> calculator.fractionOne())
     }
 
     @Test
